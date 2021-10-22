@@ -6,48 +6,62 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace ConsoleApp1
+namespace JokeGenerator
 {
     class Program
     {
         static string[] results = new string[50];
         static char key;
         static Tuple<string, string> names;
-        static ConsolePrinter printer = new ConsolePrinter();
+        private static JsonFeed myJsonFeed;
 
         static void Main(string[] args)
         {
-            printer.Value("Press ? to get instructions.").ToString();
+
+            Console.WriteLine("Press ? to get instructions.");
+
             if (Console.ReadLine() == "?")
             {
                 while (true)
                 {
-                    printer.Value("Press c to get categories").ToString();
-                    printer.Value("Press r to get random jokes").ToString();
-                    GetEnteredKey(Console.ReadKey());
+                    Console.WriteLine("Press c to get categories");
+                    Console.WriteLine("Press r to get random jokes");
+                    key = Char.Parse(Console.ReadLine());
+                    
                     if (key == 'c')
                     {
-                        getCategories();
+                        GetCategories();
                         PrintResults();
                     }
+                    
                     if (key == 'r')
                     {
-                        printer.Value("Want to use a random name? y/n").ToString();
-                        GetEnteredKey(Console.ReadKey());
-                        if (key == 'y')
-                            GetNames();
-                        printer.Value("Want to specify a category? y/n").ToString();
+                        Console.WriteLine("Want to use a random name? y/n");
+                        key = Char.Parse(Console.ReadLine());
+                        
                         if (key == 'y')
                         {
-                            printer.Value("How many jokes do you want? (1-9)").ToString();
+                            GetNames();
+                        }
+                        else if (key == 'n')
+                        {
+                            // ask user to enter name???
+                        }
+                        
+                        Console.WriteLine("Want to specify a category? y/n");
+                        key = Char.Parse(Console.ReadLine());
+                        
+                        if (key == 'y')
+                        {
+                            Console.WriteLine("How many jokes do you want? (1-9)");
                             int n = Int32.Parse(Console.ReadLine());
-                            printer.Value("Enter a category;").ToString();
+                            Console.WriteLine("Enter a category:");
                             GetRandomJokes(Console.ReadLine(), n);
                             PrintResults();
                         }
                         else
                         {
-                            printer.Value("How many jokes do you want? (1-9)").ToString();
+                            Console.WriteLine("How many jokes do you want? (1-9)");
                             int n = Int32.Parse(Console.ReadLine());
                             GetRandomJokes(null, n);
                             PrintResults();
@@ -58,72 +72,31 @@ namespace ConsoleApp1
             }
 
         }
-
+        
         private static void PrintResults()
         {
-            printer.Value("[" + string.Join(",", results) + "]").ToString();
+            Console.WriteLine("[" + string.Join(", ", results) + "]");
         }
 
-        private static void GetEnteredKey(ConsoleKeyInfo consoleKeyInfo)
+        private static void GetCategories()
         {
-            switch (consoleKeyInfo.Key)
-            {
-                case ConsoleKey.C:
-                    key = 'c';
-                    break;
-                case ConsoleKey.D0:
-                    key = '0';
-                    break;
-                case ConsoleKey.D1:
-                    key = '1';
-                    break;
-                case ConsoleKey.D3:
-                    key = '3';
-                    break;
-                case ConsoleKey.D4:
-                    key = '4';
-                    break;
-                case ConsoleKey.D5:
-                    key = '5';
-                    break;
-                case ConsoleKey.D6:
-                    key = '6';
-                    break;
-                case ConsoleKey.D7:
-                    key = '7';
-                    break;
-                case ConsoleKey.D8:
-                    key = '8';
-                    break;
-                case ConsoleKey.D9:
-                    key = '9';
-                    break;
-                case ConsoleKey.R:
-                    key = 'r';
-                    break;
-                case ConsoleKey.Y:
-                    key = 'y';
-                    break;
-            }
+            myJsonFeed = new JsonFeed("https://api.chucknorris.io", 0);
+            results = myJsonFeed.GetCategories();
         }
-
-        private static void GetRandomJokes(string category, int number)
-        {
-            new JsonFeed("https://api.chucknorris.io", number);
-            results = JsonFeed.GetRandomJokes(names?.Item1, names?.Item2, category);
-        }
-
-        private static void getCategories()
-        {
-            new JsonFeed("https://api.chucknorris.io", 0);
-            results = JsonFeed.GetCategories();
-        }
-
+        
         private static void GetNames()
         {
-            new JsonFeed("https://www.names.privserv.com/api/", 0);
-            dynamic result = JsonFeed.Getnames();
+            myJsonFeed = new JsonFeed("https://www.names.privserv.com/api/", 0);
+            dynamic result = myJsonFeed.GetNames();
             names = Tuple.Create(result.name.ToString(), result.surname.ToString());
         }
+        
+        private static void GetRandomJokes(string category, int number)
+        {
+            myJsonFeed = new JsonFeed("https://api.chucknorris.io", number);
+            results = myJsonFeed.GetRandomJokes(names?.Item1, names?.Item2, category);
+        }
+
+        
     }
 }
