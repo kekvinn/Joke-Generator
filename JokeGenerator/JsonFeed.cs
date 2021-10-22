@@ -15,12 +15,11 @@ namespace JokeGenerator
         private static JokeJsonFeed _joke;
         private static NameJsonFeed _name;
 
-        public JsonFeed(CategoryJsonFeed category, JokeJsonFeed joke, NameJsonFeed name, string url)
+        public JsonFeed(CategoryJsonFeed category, JokeJsonFeed joke, NameJsonFeed name)
         {
             _category = category;
             _joke = joke;
             _name = name;
-            _url = url;
         }
         
         public JsonFeed(string endpoint, int results)
