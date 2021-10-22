@@ -1,0 +1,17 @@
+/home/kevinliu/RiderProjects/JokeGenerator/JokeGenerator/obj/Debug/net5.0/JokeGenerator.csproj.AssemblyReference.cache
+/home/kevinliu/RiderProjects/JokeGenerator/JokeGenerator/obj/Debug/net5.0/JokeGenerator.GeneratedMSBuildEditorConfig.editorconfig
+/home/kevinliu/RiderProjects/JokeGenerator/JokeGenerator/obj/Debug/net5.0/JokeGenerator.AssemblyInfoInputs.cache
+/home/kevinliu/RiderProjects/JokeGenerator/JokeGenerator/obj/Debug/net5.0/JokeGenerator.AssemblyInfo.cs
+/home/kevinliu/RiderProjects/JokeGenerator/JokeGenerator/obj/Debug/net5.0/JokeGenerator.csproj.CoreCompileInputs.cache
+/home/kevinliu/RiderProjects/JokeGenerator/JokeGenerator/bin/Debug/net5.0/JokeGenerator
+/home/kevinliu/RiderProjects/JokeGenerator/JokeGenerator/bin/Debug/net5.0/JokeGenerator.deps.json
+/home/kevinliu/RiderProjects/JokeGenerator/JokeGenerator/bin/Debug/net5.0/JokeGenerator.runtimeconfig.json
+/home/kevinliu/RiderProjects/JokeGenerator/JokeGenerator/bin/Debug/net5.0/JokeGenerator.runtimeconfig.dev.json
+/home/kevinliu/RiderProjects/JokeGenerator/JokeGenerator/bin/Debug/net5.0/JokeGenerator.dll
+/home/kevinliu/RiderProjects/JokeGenerator/JokeGenerator/bin/Debug/net5.0/ref/JokeGenerator.dll
+/home/kevinliu/RiderProjects/JokeGenerator/JokeGenerator/bin/Debug/net5.0/JokeGenerator.pdb
+/home/kevinliu/RiderProjects/JokeGenerator/JokeGenerator/bin/Debug/net5.0/Newtonsoft.Json.dll
+/home/kevinliu/RiderProjects/JokeGenerator/JokeGenerator/obj/Debug/net5.0/JokeGenerator.dll
+/home/kevinliu/RiderProjects/JokeGenerator/JokeGenerator/obj/Debug/net5.0/ref/JokeGenerator.dll
+/home/kevinliu/RiderProjects/JokeGenerator/JokeGenerator/obj/Debug/net5.0/JokeGenerator.pdb
+/home/kevinliu/RiderProjects/JokeGenerator/JokeGenerator/obj/Debug/net5.0/JokeGenerator.genruntimeconfig.cache

@@ -13,8 +13,15 @@ namespace JokeGenerator
         static string[] results = new string[50];
         static char key;
         static Tuple<string, string> names;
-        private static JsonFeed myJsonFeed;
-
+        private static string category;
+        
+        private static CategoryJsonFeed _categoryJsonFeed = new ("https://api.chucknorris.io");
+        private static NameJsonFeed _nameJsonFeed = new ("https://www.names.privserv.com/api/");
+        private static JokeJsonFeed _jokeJsonFeed = new ("https://api.chucknorris.io", names?.Item1, names?.Item2, category);
+        
+        private static JsonFeed myJsonFeed = new (_categoryJsonFeed, _jokeJsonFeed, _nameJsonFeed);
+        
+        
         static void Main(string[] args)
         {
 
@@ -56,14 +63,15 @@ namespace JokeGenerator
                             Console.WriteLine("How many jokes do you want? (1-9)");
                             int n = Int32.Parse(Console.ReadLine());
                             Console.WriteLine("Enter a category:");
-                            GetRandomJokes(Console.ReadLine(), n);
+                            category = Console.ReadLine();
+                            GetRandomJokes();
                             PrintResults();
                         }
                         else
                         {
                             Console.WriteLine("How many jokes do you want? (1-9)");
                             int n = Int32.Parse(Console.ReadLine());
-                            GetRandomJokes(null, n);
+                            GetRandomJokes();
                             PrintResults();
                         }
                     }
@@ -80,21 +88,18 @@ namespace JokeGenerator
 
         private static void GetCategories()
         {
-            myJsonFeed = new JsonFeed("https://api.chucknorris.io", 0);
             results = myJsonFeed.GetCategories();
         }
         
         private static void GetNames()
         {
-            myJsonFeed = new JsonFeed("https://www.names.privserv.com/api/", 0);
             dynamic result = myJsonFeed.GetNames();
             names = Tuple.Create(result.name.ToString(), result.surname.ToString());
         }
         
-        private static void GetRandomJokes(string category, int number)
+        private static void GetRandomJokes()
         {
-            myJsonFeed = new JsonFeed("https://api.chucknorris.io", number);
-            results = myJsonFeed.GetRandomJokes(names?.Item1, names?.Item2, category);
+            results = myJsonFeed.GetRandomJokes();
         }
 
         

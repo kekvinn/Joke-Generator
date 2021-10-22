@@ -29,20 +29,17 @@ namespace JokeGenerator
 
         public string[] GetCategories()
         {
-            _category = new CategoryJsonFeed(_url);
             return _category.GetJsonString();
         }
-        
-        public string[] GetRandomJokes(string firstname, string lastname, string category)
-        {
-            _joke = new JokeJsonFeed(_url, firstname, lastname, category);
-            return _joke.GetJsonString();
-        }
-        
+
         public dynamic GetNames()
         {
-            _name = new NameJsonFeed(_url);
             return _name.GetJsonString();
+        }
+        
+        public string[] GetRandomJokes()
+        {
+            return _joke.GetJsonString();
         }
 
     }
