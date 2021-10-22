@@ -12,11 +12,11 @@ namespace JokeGenerator
     {
         private string _url;
 
-        public NameJsonFeed (string url)
+        public NameJsonFeed(string url)
         {
             _url = url;
         }
-        
+
         public string[] GetJsonString()
         {
             HttpClient client = new HttpClient();

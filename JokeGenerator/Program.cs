@@ -14,17 +14,18 @@ namespace JokeGenerator
         static char key;
         static Tuple<string, string> names;
         private static string category;
-        
-        private static CategoryJsonFeed _categoryJsonFeed = new ("https://api.chucknorris.io");
-        private static NameJsonFeed _nameJsonFeed = new ("https://www.names.privserv.com/api/");
-        private static JokeJsonFeed _jokeJsonFeed = new ("https://api.chucknorris.io", names?.Item1, names?.Item2, category);
-        
-        private static JsonFeed myJsonFeed = new (_categoryJsonFeed, _jokeJsonFeed, _nameJsonFeed);
-        
-        
+
+        private static CategoryJsonFeed _categoryJsonFeed = new("https://api.chucknorris.io");
+        private static NameJsonFeed _nameJsonFeed = new("https://www.names.privserv.com/api/");
+
+        private static JokeJsonFeed _jokeJsonFeed =
+            new("https://api.chucknorris.io", names?.Item1, names?.Item2, category);
+
+        private static JsonFeed myJsonFeed = new(_categoryJsonFeed, _jokeJsonFeed, _nameJsonFeed);
+
+
         static void Main(string[] args)
         {
-
             Console.WriteLine("Press ? to get instructions.");
 
             if (Console.ReadLine() == "?")
@@ -34,18 +35,18 @@ namespace JokeGenerator
                     Console.WriteLine("Press c to get categories");
                     Console.WriteLine("Press r to get random jokes");
                     key = Char.Parse(Console.ReadLine());
-                    
+
                     if (key == 'c')
                     {
                         GetCategories();
                         PrintResults();
                     }
-                    
+
                     if (key == 'r')
                     {
                         Console.WriteLine("Want to use a random name? y/n");
                         key = Char.Parse(Console.ReadLine());
-                        
+
                         if (key == 'y')
                         {
                             GetNames();
@@ -54,10 +55,10 @@ namespace JokeGenerator
                         {
                             // ask user to enter name???
                         }
-                        
+
                         Console.WriteLine("Want to specify a category? y/n");
                         key = Char.Parse(Console.ReadLine());
-                        
+
                         if (key == 'y')
                         {
                             Console.WriteLine("How many jokes do you want? (1-9)");
@@ -75,12 +76,12 @@ namespace JokeGenerator
                             PrintResults();
                         }
                     }
+
                     names = null;
                 }
             }
-
         }
-        
+
         private static void PrintResults()
         {
             Console.WriteLine("[" + string.Join(", ", results) + "]");
@@ -90,18 +91,16 @@ namespace JokeGenerator
         {
             results = myJsonFeed.GetCategories();
         }
-        
+
         private static void GetNames()
         {
             dynamic result = myJsonFeed.GetNames();
             names = Tuple.Create(result.name.ToString(), result.surname.ToString());
         }
-        
+
         private static void GetRandomJokes()
         {
             results = myJsonFeed.GetRandomJokes();
         }
-
-        
     }
 }

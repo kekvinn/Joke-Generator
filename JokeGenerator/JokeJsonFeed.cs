@@ -14,7 +14,7 @@ namespace JokeGenerator
         private string _firstname;
         private string _lastname;
         private string _category;
-        
+
         public JokeJsonFeed(string url, string firstname, string lastname, string category)
         {
             _url = url;
@@ -32,28 +32,30 @@ namespace JokeGenerator
             {
                 if (url.Contains('?'))
                     url += "&";
-                else 
+                else
                     url += "?";
-                
+
                 url += "category=";
                 url += _category;
             }
 
             string joke = Task.FromResult(client.GetStringAsync(url).Result).Result;
             joke = ReplaceName(joke);
-            
-            return new string[] { JsonConvert.DeserializeObject<dynamic>(joke).value };
+
+            return new string[] {JsonConvert.DeserializeObject<dynamic>(joke).value};
         }
-        
+
         public string ReplaceName(string joke)
         {
             if (_firstname != null && _lastname != null)
             {
                 int index = joke.IndexOf("Chuck Norris");
                 string firstPart = joke.Substring(0, index);
-                string secondPart = joke.Substring(0 + index + "Chuck Norris".Length, joke.Length - (index + "Chuck Norris".Length));
+                string secondPart = joke.Substring(0 + index + "Chuck Norris".Length,
+                    joke.Length - (index + "Chuck Norris".Length));
                 joke = firstPart + " " + _firstname + " " + _lastname + secondPart;
             }
+
             return joke;
         }
     }
