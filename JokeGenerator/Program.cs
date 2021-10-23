@@ -10,18 +10,17 @@ namespace JokeGenerator
 {
     class Program
     {
-        static string[] results = new string[50];
+        static List<string> results = new List<string>();
         static char key;
-        static Tuple<string, string> names;
+        static Tuple<string, string> name;
         private static string category;
+        //static ConsolePrinter printer = new ConsolePrinter();
 
-        private static CategoryJsonFeedSource _categoryJsonFeedSource = new("https://api.chucknorris.io");
-        private static NameJsonFeedSource _nameJsonFeedSource = new("https://www.names.privserv.com/api/");
-
-        private static JokeJsonFeedSource _jokeJsonFeedSource =
-            new("https://api.chucknorris.io", names?.Item1, names?.Item2, category);
-
-        private static JsonFeedProcessor _myJsonFeedProcessor = new(_categoryJsonFeedSource, _jokeJsonFeedSource, _nameJsonFeedSource);
+        private static JsonFeedProcessor myJsonFeedProcessor = new(
+            new CategoryJsonFeedSource("https://api.chucknorris.io/jokes/categories"),
+            new JokeJsonFeedSource("https://api.chucknorris.io"),
+            new NameJsonFeedSource("https://www.names.privserv.com/api/?region=canada")
+        );
 
 
         static void Main(string[] args)
@@ -65,42 +64,42 @@ namespace JokeGenerator
                             int n = Int32.Parse(Console.ReadLine());
                             Console.WriteLine("Enter a category:");
                             category = Console.ReadLine();
-                            GetRandomJokes();
+                            GetRandomJokes(n);
                             PrintResults();
                         }
                         else
                         {
                             Console.WriteLine("How many jokes do you want? (1-9)");
                             int n = Int32.Parse(Console.ReadLine());
-                            GetRandomJokes();
+                            GetRandomJokes(n);
                             PrintResults();
                         }
                     }
 
-                    names = null;
+                    name = null;
                 }
             }
         }
 
         private static void PrintResults()
         {
-            Console.WriteLine("[" + string.Join(", ", results) + "]");
+            Console.WriteLine("[" + string.Join(",\n ", results) + "]\n");
         }
 
         private static void GetCategories()
         {
-            results = _myJsonFeedProcessor.GetCategories();
+            results = JsonFeedProcessor.GetCategories();
         }
 
         private static void GetNames()
         {
-            dynamic result = _myJsonFeedProcessor.GetNames();
-            names = Tuple.Create(result.name.ToString(), result.surname.ToString());
+            dynamic result = myJsonFeedProcessor.GetNames();
+            name = Tuple.Create(result.name.ToString(), result.surname.ToString());
         }
 
-        private static void GetRandomJokes()
+        private static void GetRandomJokes(int count)
         {
-            results = _myJsonFeedProcessor.GetRandomJokes();
+            results = myJsonFeedProcessor.GetRandomJokes(name?.Item1, name?.Item2, category, count);
         }
     }
 }

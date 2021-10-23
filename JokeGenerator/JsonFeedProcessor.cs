@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace JokeGenerator
 {
@@ -15,19 +17,44 @@ namespace JokeGenerator
             _name = name;
         }
 
-        public string[] GetCategories()
+        public static List<string> GetCategories()
         {
-            return _category.GetJsonString();
+            return new List<string>(new string []{_category.GetJsonString()});
         }
 
         public dynamic GetNames()
         {
-            return _name.GetJsonString();
+            return JsonConvert.DeserializeObject<dynamic>(_name.GetJsonString());
         }
 
-        public string[] GetRandomJokes()
+        public List<string> GetRandomJokes( string firstName, string lastName, string category, int count = 1)
         {
-            return _joke.GetJsonString();
+            _joke.SetCategory(category);
+            
+            var jokeList = new List<string>();
+            for (var x = 0; x < count; x++)
+            {
+                var tmp = JsonConvert.DeserializeObject<dynamic>(ReplaceName(_joke.GetJsonString(), firstName, lastName)).value;
+                jokeList.Add( tmp.ToString() );
+            }
+
+            return jokeList;
         }
+        
+        private string ReplaceName(string joke, string firstName, string lastName)
+        {
+            if (firstName != null && lastName != null)
+            {
+                int index = joke.IndexOf("Chuck Norris");
+                string firstPart = joke.Substring(0, index);
+                string secondPart = joke.Substring(0 + index + "Chuck Norris".Length,
+                    joke.Length - (index + "Chuck Norris".Length));
+                joke = firstPart + " " + firstName + " " + lastName + secondPart;
+            }
+
+            return joke;
+        }
+
+        
     }
 }
