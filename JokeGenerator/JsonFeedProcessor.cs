@@ -2,13 +2,13 @@
 
 namespace JokeGenerator
 {
-    public class JsonFeed
+    public class JsonFeedProcessor
     {
-        private static CategoryJsonFeed _category;
-        private static JokeJsonFeed _joke;
-        private static NameJsonFeed _name;
+        private static CategoryJsonFeedSource _category;
+        private static JokeJsonFeedSource _joke;
+        private static NameJsonFeedSource _name;
 
-        public JsonFeed(CategoryJsonFeed category, JokeJsonFeed joke, NameJsonFeed name)
+        public JsonFeedProcessor(CategoryJsonFeedSource category, JokeJsonFeedSource joke, NameJsonFeedSource name)
         {
             _category = category;
             _joke = joke;

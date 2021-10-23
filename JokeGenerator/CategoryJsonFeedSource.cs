@@ -8,11 +8,11 @@ using Newtonsoft.Json;
 
 namespace JokeGenerator
 {
-    public class CategoryJsonFeed : IJsonFeedSource
+    public class CategoryJsonFeedSource : IJsonFeedSource
     {
         private string _url;
 
-        public CategoryJsonFeed(string url)
+        public CategoryJsonFeedSource(string url)
         {
             _url = url;
         }
