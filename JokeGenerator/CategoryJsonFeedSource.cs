@@ -24,5 +24,10 @@ namespace JokeGenerator
 
             return Task.FromResult(client.GetStringAsync("categories").Result).Result;
         }
+
+        public void SetOption(string option)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

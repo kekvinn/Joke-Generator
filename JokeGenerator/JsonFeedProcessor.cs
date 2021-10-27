@@ -6,11 +6,11 @@ namespace JokeGenerator
 {
     public class JsonFeedProcessor
     {
-        private static CategoryJsonFeedSource _category;
-        private static JokeJsonFeedSource _joke;
-        private static NameJsonFeedSource _name;
+        private static IJsonFeedSource _category;
+        private static IJsonFeedSource _joke;
+        private static IJsonFeedSource _name;
 
-        public JsonFeedProcessor(CategoryJsonFeedSource category, JokeJsonFeedSource joke, NameJsonFeedSource name)
+        public JsonFeedProcessor(IJsonFeedSource category, IJsonFeedSource joke, IJsonFeedSource name)
         {
             _category = category;
             _joke = joke;
@@ -29,7 +29,7 @@ namespace JokeGenerator
 
         public List<string> GetRandomJokes( string firstName, string lastName, string category, int count = 1)
         {
-            _joke.SetCategory(category);
+            _joke.SetOption(category);
             
             var jokeList = new List<string>();
             for (var x = 0; x < count; x++)

@@ -38,9 +38,9 @@ namespace JokeGenerator
             return Task.FromResult(client.GetStringAsync(url).Result).Result;
         }
 
-        public void SetCategory( string category)
+        public void SetOption(string option)
         {
-            _category = category;
+            _category = option;
         }
     }
 }

@@ -23,5 +23,10 @@ namespace JokeGenerator
             client.BaseAddress = new Uri(_url);
             return client.GetStringAsync("").Result;
         }
+
+        public void SetOption(string option)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
