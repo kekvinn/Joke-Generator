@@ -10,7 +10,7 @@ namespace JokeGenerator
 {
     class Program
     {
-        static string[] results = new string[50];
+        static string[] results;
         static char key;
         static Tuple<string, string> names;
         private static string category;
@@ -18,8 +18,7 @@ namespace JokeGenerator
         private static CategoryJsonFeedSource _categoryJsonFeedSource = new("https://api.chucknorris.io");
         private static NameJsonFeedSource _nameJsonFeedSource = new("https://www.names.privserv.com/api/");
 
-        private static JokeJsonFeedSource _jokeJsonFeedSource =
-            new("https://api.chucknorris.io", names?.Item1, names?.Item2, category);
+        private static JokeJsonFeedSource _jokeJsonFeedSource = new("https://api.chucknorris.io");
 
         private static JsonFeedProcessor _myJsonFeedProcessor = new(_categoryJsonFeedSource, _jokeJsonFeedSource, _nameJsonFeedSource);
 
@@ -84,12 +83,16 @@ namespace JokeGenerator
 
         private static void PrintResults()
         {
-            Console.WriteLine("[" + string.Join(", ", results) + "]");
+            Console.WriteLine("Here are your results:");
+            foreach (string item in results)
+            {
+                Console.WriteLine(item);
+            }
         }
 
         private static void GetCategories()
         {
-            results = _myJsonFeedProcessor.GetCategories();
+            results = _myJsonFeedProcessor.GetCategories().ToArray();
         }
 
         private static void GetNames()
@@ -100,7 +103,7 @@ namespace JokeGenerator
 
         private static void GetRandomJokes()
         {
-            results = _myJsonFeedProcessor.GetRandomJokes();
+            results = _myJsonFeedProcessor.GetRandomJokes(names.Item1, names.Item2, category).ToArray();
         }
     }
 }

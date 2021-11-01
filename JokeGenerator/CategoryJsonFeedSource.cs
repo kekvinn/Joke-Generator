@@ -17,12 +17,21 @@ namespace JokeGenerator
             _url = url;
         }
 
-        public string[] GetJsonString()
+        public string GetJsonString()
         {
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri(_url);
+            
+            Console.WriteLine(Task.FromResult(client.GetStringAsync("/categories").Result).Result);
 
-            return new string[] {Task.FromResult(client.GetStringAsync("categories").Result).Result};
+            // return Task.FromResult(client.GetStringAsync("categories").Result).Result;
+
+            return "placeholder";
+        }
+
+        public void SetOption(string option)
+        {
+            throw new NotImplementedException();
         }
     }
 }
