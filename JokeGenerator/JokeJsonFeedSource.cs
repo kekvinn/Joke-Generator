@@ -37,6 +37,7 @@ namespace JokeGenerator
 
             return Task.FromResult(client.GetStringAsync(url).Result).Result;
         }
+        
 
         public void SetOption(string option)
         {

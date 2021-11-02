@@ -21,12 +21,8 @@ namespace JokeGenerator
         {
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri(_url);
-            
-            Console.WriteLine(Task.FromResult(client.GetStringAsync("/categories").Result).Result);
 
-            // return Task.FromResult(client.GetStringAsync("categories").Result).Result;
-
-            return "placeholder";
+            return Task.FromResult(client.GetStringAsync("categories").Result).Result;
         }
 
         public void SetOption(string option)

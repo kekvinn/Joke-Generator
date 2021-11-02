@@ -22,12 +22,12 @@ namespace JokeGenerator
             return new List<string>(new string []{_category.GetJsonString()});
         }
 
-        public dynamic GetNames()
+        public static dynamic GetNames()
         {
             return JsonConvert.DeserializeObject<dynamic>(_name.GetJsonString());
         }
 
-        public List<string> GetRandomJokes(string firstName, string lastName, string category, int count = 1)
+        public static List<string> GetRandomJokes(string firstName, string lastName, string category, int count = 1)
         {
             _joke.SetOption(category);
             
@@ -41,7 +41,7 @@ namespace JokeGenerator
             return jokeList;
         }
         
-        private string ReplaceName(string joke, string firstName, string lastName)
+        private static string ReplaceName(string joke, string firstName, string lastName)
         {
             if (firstName != null && lastName != null)
             {

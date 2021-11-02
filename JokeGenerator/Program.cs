@@ -2,29 +2,32 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using NUnitLite;
 
 namespace JokeGenerator
 {
     class Program
     {
-        static string[] results;
+        static List<string> results = new List<string>();
         static char key;
-        static Tuple<string, string> names;
+        static Tuple<string, string> name;
         private static string category;
 
-        private static CategoryJsonFeedSource _categoryJsonFeedSource = new("https://api.chucknorris.io");
-        private static NameJsonFeedSource _nameJsonFeedSource = new("https://www.names.privserv.com/api/");
+        
+        private static JsonFeedProcessor myJsonFeedProcessor = new(
+            new CategoryJsonFeedSource("https://api.chucknorris.io/jokes/categories"),
+            new JokeJsonFeedSource("https://api.chucknorris.io"),
+            new NameJsonFeedSource("https://www.names.privserv.com/api/?region=canada")
+        );
 
-        private static JokeJsonFeedSource _jokeJsonFeedSource = new("https://api.chucknorris.io");
-
-        private static JsonFeedProcessor _myJsonFeedProcessor = new(_categoryJsonFeedSource, _jokeJsonFeedSource, _nameJsonFeedSource);
-
-
-        static void Main(string[] args)
+        static int Main(string[] args)
         {
+            return new AutoRun(Assembly.GetCallingAssembly()).Execute(new String[] {"--labels=All"});
+            
             Console.WriteLine("Press ? to get instructions.");
 
             if (Console.ReadLine() == "?")
@@ -37,7 +40,7 @@ namespace JokeGenerator
 
                     if (key == 'c')
                     {
-                        GetCategories();
+                        // GetCategories();
                         PrintResults();
                     }
 
@@ -52,7 +55,7 @@ namespace JokeGenerator
                         }
                         else if (key == 'n')
                         {
-                            // ask user to enter name???
+                            InputNames();
                         }
 
                         Console.WriteLine("Want to specify a category? y/n");
@@ -75,35 +78,51 @@ namespace JokeGenerator
                             PrintResults();
                         }
                     }
-
-                    names = null;
+                    name = null;
                 }
             }
+        }
+
+        private static void InputNames()
+        {
+            
+            Console.WriteLine("Please enter the name: ");
+            string nameTmp = Console.ReadLine();
+
+            string firstName = nameTmp.Substring(0, nameTmp.IndexOf(' '));
+            string lastName = nameTmp.Substring(nameTmp.IndexOf(' ') + 1, nameTmp.Length - 1);
+            
+            Console.WriteLine(firstName);
+            Console.WriteLine(lastName);
         }
 
         private static void PrintResults()
         {
             Console.WriteLine("Here are your results:");
-            foreach (string item in results)
+
+            foreach (string i in results)
             {
-                Console.WriteLine(item);
+                Console.WriteLine(i);
             }
+            // Console.WriteLine("[" + string.Join(",\n ", results) + "]\n");
         }
 
-        private static void GetCategories()
+        
+        private void GetCategories()
         {
-            results = _myJsonFeedProcessor.GetCategories().ToArray();
+            results = JsonFeedProcessor.GetCategories();
         }
+        
 
         private static void GetNames()
         {
-            dynamic result = _myJsonFeedProcessor.GetNames();
-            names = Tuple.Create(result.name.ToString(), result.surname.ToString());
+            dynamic result = JsonFeedProcessor.GetNames();
+            name = Tuple.Create(result.name.ToString(), result.surname.ToString());
         }
 
         private static void GetRandomJokes()
         {
-            results = _myJsonFeedProcessor.GetRandomJokes(names.Item1, names.Item2, category).ToArray();
+            results = JsonFeedProcessor.GetRandomJokes(name?.Item1, name?.Item2, category);
         }
     }
 }
