@@ -21,7 +21,6 @@ namespace JokeGenerator
         {
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri(_url);
-
             return Task.FromResult(client.GetStringAsync("categories").Result).Result;
         }
 

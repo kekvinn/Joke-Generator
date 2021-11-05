@@ -6,9 +6,9 @@ namespace JokeGenerator
 {
     public class JsonFeedProcessor
     {
-        private static IJsonFeedSource _category;
-        private static IJsonFeedSource _joke;
-        private static IJsonFeedSource _name;
+        private IJsonFeedSource _category;
+        private IJsonFeedSource _joke;
+        private IJsonFeedSource _name;
 
         public JsonFeedProcessor(IJsonFeedSource category, IJsonFeedSource joke, IJsonFeedSource name)
         {
@@ -22,23 +22,23 @@ namespace JokeGenerator
             return new List<string>(new string []{_category.GetJsonString()});
         }
 
-        public static dynamic GetNames()
+        public dynamic GetNames()
         {
             return JsonConvert.DeserializeObject<dynamic>(_name.GetJsonString());
         }
 
-        public static List<string> GetRandomJokes(string firstName, string lastName, string category, int count = 1)
+        public List<string> GetRandomJokes(string firstName, string lastName, string category)
         {
-            _joke.SetOption(category);
+            // fix ReplaceName feature
+            // somehow just return the value; not the whole JsonString
             
-            var jokeList = new List<string>();
-            for (var x = 0; x < count; x++)
-            {
-                var tmp = JsonConvert.DeserializeObject<dynamic>(ReplaceName(_joke.GetJsonString(), firstName, lastName)).value;
-                jokeList.Add( tmp.ToString() );
-            }
-
-            return jokeList;
+            
+            
+            _joke.SetOption(category);
+            string joke = _joke.GetJsonString();
+            // joke = ReplaceName(joke, firstName, lastName);
+            
+            return new List<string>(new string []{joke});
         }
         
         private static string ReplaceName(string joke, string firstName, string lastName)

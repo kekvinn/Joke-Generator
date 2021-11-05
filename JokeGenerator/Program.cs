@@ -1,12 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-using NUnitLite;
 
 namespace JokeGenerator
 {
@@ -17,16 +10,16 @@ namespace JokeGenerator
         static Tuple<string, string> name;
         private static string category;
 
-        
-        private static JsonFeedProcessor myJsonFeedProcessor = new(
+        static JsonFeedProcessor myJsonFeedProcessor = new JsonFeedProcessor(
             new CategoryJsonFeedSource("https://api.chucknorris.io/jokes/categories"),
             new JokeJsonFeedSource("https://api.chucknorris.io"),
             new NameJsonFeedSource("https://www.names.privserv.com/api/?region=canada")
         );
 
-        static int Main(string[] args)
+        static void Main(string[] args)
         {
-            return new AutoRun(Assembly.GetCallingAssembly()).Execute(new String[] {"--labels=All"});
+            
+            // return new AutoRun(Assembly.GetCallingAssembly()).Execute(new String[] {"--labels=All"});
             
             Console.WriteLine("Press ? to get instructions.");
 
@@ -40,7 +33,7 @@ namespace JokeGenerator
 
                     if (key == 'c')
                     {
-                        // GetCategories();
+                        GetCategories();
                         PrintResults();
                     }
 
@@ -67,14 +60,15 @@ namespace JokeGenerator
                             int n = Int32.Parse(Console.ReadLine());
                             Console.WriteLine("Enter a category:");
                             category = Console.ReadLine();
-                            GetRandomJokes();
+                            GetRandomJokes(n);
                             PrintResults();
                         }
                         else
                         {
                             Console.WriteLine("How many jokes do you want? (1-9)");
+                            category = null;
                             int n = Int32.Parse(Console.ReadLine());
-                            GetRandomJokes();
+                            GetRandomJokes(n);
                             PrintResults();
                         }
                     }
@@ -86,14 +80,11 @@ namespace JokeGenerator
         private static void InputNames()
         {
             
-            Console.WriteLine("Please enter the name: ");
+            Console.WriteLine("Please enter a name: ");
             string nameTmp = Console.ReadLine();
+            string[] names = nameTmp.Split(' ');
 
-            string firstName = nameTmp.Substring(0, nameTmp.IndexOf(' '));
-            string lastName = nameTmp.Substring(nameTmp.IndexOf(' ') + 1, nameTmp.Length - 1);
-            
-            Console.WriteLine(firstName);
-            Console.WriteLine(lastName);
+            name = Tuple.Create(names[0], names[1]);
         }
 
         private static void PrintResults()
@@ -104,25 +95,26 @@ namespace JokeGenerator
             {
                 Console.WriteLine(i);
             }
-            // Console.WriteLine("[" + string.Join(",\n ", results) + "]\n");
         }
-
         
-        private void GetCategories()
+        private static void GetCategories()
         {
-            results = JsonFeedProcessor.GetCategories();
+            results = myJsonFeedProcessor.GetCategories();
         }
         
-
         private static void GetNames()
         {
-            dynamic result = JsonFeedProcessor.GetNames();
+            dynamic result = myJsonFeedProcessor.GetNames();
             name = Tuple.Create(result.name.ToString(), result.surname.ToString());
         }
 
-        private static void GetRandomJokes()
+        private static void GetRandomJokes(int n)
         {
-            results = JsonFeedProcessor.GetRandomJokes(name?.Item1, name?.Item2, category);
+            for (int i = 1; i < n; i++)
+            {
+                results = myJsonFeedProcessor.GetRandomJokes(name?.Item1, name?.Item2, category);
+                PrintResults();
+            }
         }
     }
 }

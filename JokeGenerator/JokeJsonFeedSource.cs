@@ -24,20 +24,15 @@ namespace JokeGenerator
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri(_url);
             string url = "jokes/random";
+            
             if (_category != null)
             {
-                if (url.Contains('?'))
-                    url += "&";
-                else
-                    url += "?";
-
-                url += "category=";
+                url += "?category=";
                 url += _category;
             }
 
             return Task.FromResult(client.GetStringAsync(url).Result).Result;
         }
-        
 
         public void SetOption(string option)
         {

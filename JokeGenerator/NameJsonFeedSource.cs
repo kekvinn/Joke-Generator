@@ -22,7 +22,7 @@ namespace JokeGenerator
             HttpClient client = new HttpClient();
             client.BaseAddress = new Uri(_url);
             var result = client.GetStringAsync("").Result;
-            return JsonConvert.DeserializeObject<dynamic>(result);
+            return result;
         }
 
         public void SetOption(String option)
