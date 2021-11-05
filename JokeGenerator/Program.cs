@@ -21,8 +21,8 @@ namespace JokeGenerator
             
             // return new AutoRun(Assembly.GetCallingAssembly()).Execute(new String[] {"--labels=All"});
             
-            Console.WriteLine("Press ? to get instructions.");
-
+            Console.WriteLine("Welcome to the Chuck Norris joke generator! To get started, enter ? to get instructions.");
+            
             if (Console.ReadLine() == "?")
             {
                 while (true)
@@ -56,12 +56,11 @@ namespace JokeGenerator
 
                         if (key == 'y')
                         {
-                            Console.WriteLine("How many jokes do you want? (1-9)");
-                            int n = Int32.Parse(Console.ReadLine());
                             Console.WriteLine("Enter a category:");
                             category = Console.ReadLine();
+                            Console.WriteLine("How many jokes do you want? (1-9)");
+                            int n = Int32.Parse(Console.ReadLine());
                             GetRandomJokes(n);
-                            PrintResults();
                         }
                         else
                         {
@@ -69,7 +68,6 @@ namespace JokeGenerator
                             category = null;
                             int n = Int32.Parse(Console.ReadLine());
                             GetRandomJokes(n);
-                            PrintResults();
                         }
                     }
                     name = null;
@@ -79,18 +77,14 @@ namespace JokeGenerator
 
         private static void InputNames()
         {
-            
             Console.WriteLine("Please enter a name: ");
-            string nameTmp = Console.ReadLine();
-            string[] names = nameTmp.Split(' ');
+            string[] names = Console.ReadLine().Split(' ');
 
             name = Tuple.Create(names[0], names[1]);
         }
 
         private static void PrintResults()
         {
-            Console.WriteLine("Here are your results:");
-
             foreach (string i in results)
             {
                 Console.WriteLine(i);
@@ -110,7 +104,7 @@ namespace JokeGenerator
 
         private static void GetRandomJokes(int n)
         {
-            for (int i = 1; i < n; i++)
+            for (int i = 0; i < n; i++)
             {
                 results = myJsonFeedProcessor.GetRandomJokes(name?.Item1, name?.Item2, category);
                 PrintResults();

@@ -29,16 +29,10 @@ namespace JokeGenerator
 
         public List<string> GetRandomJokes(string firstName, string lastName, string category)
         {
-            // fix ReplaceName feature
-            // somehow just return the value; not the whole JsonString
-            
-            
-            
             _joke.SetOption(category);
             string joke = _joke.GetJsonString();
-            // joke = ReplaceName(joke, firstName, lastName);
-            
-            return new List<string>(new string []{joke});
+            joke = ReplaceName(joke, firstName, lastName);
+            return new List<string>(new string[] {JsonConvert.DeserializeObject<dynamic>(joke).value});
         }
         
         private static string ReplaceName(string joke, string firstName, string lastName)
@@ -49,7 +43,7 @@ namespace JokeGenerator
                 string firstPart = joke.Substring(0, index);
                 string secondPart = joke.Substring(0 + index + "Chuck Norris".Length,
                     joke.Length - (index + "Chuck Norris".Length));
-                joke = firstPart + " " + firstName + " " + lastName + secondPart;
+                joke = firstPart + firstName + " " + lastName + secondPart;
             }
 
             return joke;
