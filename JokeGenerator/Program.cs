@@ -22,8 +22,7 @@ namespace JokeGenerator
         private static void Main()
         {
             // return new AutoRun(Assembly.GetCallingAssembly()).Execute(new String[] {"--labels=All"});
-            
-            
+
             Console.WriteLine("Welcome to the Chuck Norris joke generator! To get started, enter ? to get instructions.");
 
             if (Console.ReadLine() != "?") 
