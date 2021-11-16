@@ -62,9 +62,9 @@ namespace JokeGeneratorTests
         [Test]
         public void Test_ReturnsJokeWithSubstitutedName()
         {
-            const string testJoke = "Chuck Norris walks into a bar";
+            const string testJoke = "Chuck Norris walks into a bar...";
             const string testJokeJson = "{\"value\":\"" + testJoke + "\"}";
-            var expectedJoke = new List<string> {"Albert Einstein walks into a bar"};
+            var expectedJoke = new List<string> {"Albert Einstein walks into a bar..."};
 
             var mockJokeJsonFeedSource = new Mock<IJsonFeedSource>();
             mockJokeJsonFeedSource.Setup(m => m.GetJsonString()).Returns(testJokeJson);
