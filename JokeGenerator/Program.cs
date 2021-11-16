@@ -1,94 +1,95 @@
-﻿using NUnit.Framework;
-using NUnitLite;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Reflection;
-using Moq;
+// using NUnitLite;
+// using System.Reflection;
+
 
 namespace JokeGenerator
 {
-    class Program
+    internal static class Program
     {
-        static List<string> results = new List<string>();
-        static char key;
-        static Tuple<string, string> name;
-        private static string category;
+        private static List<string> _results = new();
+        private static char _key;
+        private static Tuple<string, string> _name;
+        private static string _category;
 
-        static JsonFeedProcessor myJsonFeedProcessor = new JsonFeedProcessor(
+        private static readonly JsonFeedProcessor MyJsonFeedProcessor = new JsonFeedProcessor(
             new CategoryJsonFeedSource("https://api.chucknorris.io/jokes/categories"),
             new JokeJsonFeedSource("https://api.chucknorris.io"),
             new NameJsonFeedSource("https://www.names.privserv.com/api/?region=canada")
         );
 
-        static void Main(string[] args)
+        private static void Main()
         {
             // return new AutoRun(Assembly.GetCallingAssembly()).Execute(new String[] {"--labels=All"});
             
-            Console.WriteLine("Welcome to the Chuck Norris joke generator! To get started, enter ? to get instructions.");
             
-            if (Console.ReadLine() == "?")
+            Console.WriteLine("Welcome to the Chuck Norris joke generator! To get started, enter ? to get instructions.");
+
+            if (Console.ReadLine() != "?") 
+                return;
+            
+            while (true)
             {
-                while (true)
+                Console.WriteLine("Press c to get categories");
+                Console.WriteLine("Press r to get random jokes");
+                _key = char.Parse(Console.ReadLine() ?? string.Empty);
+
+                if (_key == 'c')
                 {
-                    Console.WriteLine("Press c to get categories");
-                    Console.WriteLine("Press r to get random jokes");
-                    key = Char.Parse(Console.ReadLine());
-
-                    if (key == 'c')
-                    {
-                        GetCategories();
-                        PrintResults();
-                    }
-
-                    if (key == 'r')
-                    {
-                        Console.WriteLine("Want to use a random name? y/n");
-                        key = Char.Parse(Console.ReadLine());
-
-                        if (key == 'y')
-                        {
-                            GetNames();
-                        }
-                        else if (key == 'n')
-                        {
-                            InputNames();
-                        }
-
-                        Console.WriteLine("Want to specify a category? y/n");
-                        key = Char.Parse(Console.ReadLine());
-
-                        if (key == 'y')
-                        {
-                            Console.WriteLine("Enter a category:");
-                            category = Console.ReadLine();
-                            Console.WriteLine("How many jokes do you want? (1-9)");
-                            int n = Int32.Parse(Console.ReadLine());
-                            GetRandomJokes(n);
-                        }
-                        else
-                        {
-                            Console.WriteLine("How many jokes do you want? (1-9)");
-                            category = null;
-                            int n = Int32.Parse(Console.ReadLine());
-                            GetRandomJokes(n);
-                        }
-                    }
-                    name = null;
+                    GetCategories();
+                    PrintResults();
                 }
+
+                if (_key == 'r')
+                {
+                    Console.WriteLine("Want to use a random name? y/n");
+                    _key = char.Parse(Console.ReadLine() ?? string.Empty);
+
+                    switch (_key)
+                    {
+                        case 'y':
+                            GetNames();
+                            break;
+                        case 'n':
+                            InputNames();
+                            break;
+                    }
+
+                    Console.WriteLine("Want to specify a category? y/n");
+                    _key = char.Parse(Console.ReadLine() ?? string.Empty);
+
+                    if (_key == 'y')
+                    {
+                        Console.WriteLine("Enter a category:");
+                        _category = Console.ReadLine();
+                        Console.WriteLine("How many jokes do you want? (1-9)");
+                        var n = int.Parse(Console.ReadLine() ?? string.Empty);
+                        GetRandomJokes(n);
+                    }
+                    else
+                    {
+                        Console.WriteLine("How many jokes do you want? (1-9)");
+                        _category = null;
+                        var n = int.Parse(Console.ReadLine() ?? string.Empty);
+                        GetRandomJokes(n);
+                    }
+                }
+                _name = null;
             }
         }
 
         private static void InputNames()
         {
             Console.WriteLine("Please enter a name: ");
-            string[] names = Console.ReadLine().Split(' ');
+            var names = Console.ReadLine()?.Split(' ');
 
-            name = Tuple.Create(names[0], names[1]);
+            _name = Tuple.Create(names?[0], names?[1]);
         }
 
         private static void PrintResults()
         {
-            foreach (string i in results)
+            foreach (var i in _results)
             {
                 Console.WriteLine(i);
             }
@@ -96,20 +97,20 @@ namespace JokeGenerator
         
         private static void GetCategories()
         {
-            results = myJsonFeedProcessor.GetCategories();
+            _results = MyJsonFeedProcessor.GetCategories();
         }
         
         private static void GetNames()
         {
-            dynamic result = myJsonFeedProcessor.GetNames();
-            name = Tuple.Create(result.name.ToString(), result.surname.ToString());
+            var result = MyJsonFeedProcessor.GetNames();
+            _name = Tuple.Create(result.name.ToString(), result.surname.ToString());
         }
 
         private static void GetRandomJokes(int n)
         {
-            for (int i = 0; i < n; i++)
+            for (var i = 0; i < n; i++)
             {
-                results = myJsonFeedProcessor.GetRandomJokes(name?.Item1, name?.Item2, category);
+                _results = MyJsonFeedProcessor.GetRandomJokes(_name?.Item1, _name?.Item2, _category);
                 PrintResults();
             }
         }
