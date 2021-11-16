@@ -24,6 +24,9 @@ namespace JokeGenerator
 
         public dynamic GetNames()
         {
+            // var thing = JsonConvert.DeserializeObject<dynamic>(_name.GetJsonString());
+            // Console.WriteLine(thing);
+            // return thing;
             return JsonConvert.DeserializeObject<dynamic>(_name.GetJsonString());
         }
 
@@ -45,7 +48,6 @@ namespace JokeGenerator
                     joke.Length - (index + "Chuck Norris".Length));
                 joke = firstPart + firstName + " " + lastName + secondPart;
             }
-
             return joke;
         }
     }

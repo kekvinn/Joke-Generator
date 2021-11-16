@@ -1,5 +1,9 @@
-﻿using System;
+﻿using NUnit.Framework;
+using NUnitLite;
+using System;
 using System.Collections.Generic;
+using System.Reflection;
+using Moq;
 
 namespace JokeGenerator
 {
@@ -18,7 +22,6 @@ namespace JokeGenerator
 
         static void Main(string[] args)
         {
-            
             // return new AutoRun(Assembly.GetCallingAssembly()).Execute(new String[] {"--labels=All"});
             
             Console.WriteLine("Welcome to the Chuck Norris joke generator! To get started, enter ? to get instructions.");

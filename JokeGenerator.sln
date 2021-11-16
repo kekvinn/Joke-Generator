@@ -2,7 +2,7 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JokeGenerator", "JokeGenerator\JokeGenerator.csproj", "{A6A66599-CF52-44E2-B6C3-6DC33942B256}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JokeGeneratorTest", "JokeGeneratorTest\JokeGeneratorTest.csproj", "{F245886E-F48D-4CE7-BCD1-58797A8E75D3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JokeGeneratorTests", "JokeGeneratorTests\JokeGeneratorTests.csproj", "{F245886E-F48D-4CE7-BCD1-58797A8E75D3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

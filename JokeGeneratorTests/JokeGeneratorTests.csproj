@@ -4,8 +4,6 @@
         <TargetFramework>net5.0</TargetFramework>
 
         <IsPackable>false</IsPackable>
-
-        <RootNamespace>TestProject1</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
@@ -14,6 +12,11 @@
         <PackageReference Include="NUnit" Version="3.13.1" />
         <PackageReference Include="NUnit3TestAdapter" Version="3.17.0" />
         <PackageReference Include="coverlet.collector" Version="3.0.2" />
+        <PackageReference Include="NUnitLite" Version="3.13.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\JokeGenerator\JokeGenerator.csproj" />
     </ItemGroup>
 
 </Project>
