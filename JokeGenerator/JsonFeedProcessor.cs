@@ -41,11 +41,19 @@ namespace JokeGenerator
             if (firstName == null || lastName == null) 
                 return joke;
 
-            var index = joke.IndexOf("Chuck Norris", StringComparison.Ordinal);
-            var firstPart = joke.Substring(0, index);
-            var secondPart = joke.Substring(0 + index + "Chuck Norris".Length,
-                joke.Length - (index + "Chuck Norris".Length));
-            joke = firstPart + firstName + " " + lastName + secondPart;
+            var chuckLength = "Chuck Norris".Length;
+
+            for (var i = 0; i <= joke.Length - chuckLength; i++)
+            {
+                var testString = joke.Substring(i, chuckLength);
+                if (testString.Equals("Chuck Norris"))
+                {
+                    var firstPart = joke.Substring(0, i);
+                    var secondPart = joke.Substring(i + chuckLength, joke.Length - (i + chuckLength));
+                    joke = firstPart + firstName + " " + lastName + secondPart;
+                }
+            }
+
             return joke;
         }
     }
